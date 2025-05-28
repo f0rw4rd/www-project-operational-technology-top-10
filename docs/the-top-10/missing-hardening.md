@@ -1,101 +1,106 @@
 # Missing Hardening
 
-Hardening is usually done to make a system more secure, typically by reducing or restricting features which inherently reduces a system's attack surface. Another form of hardening is enabling additional layers of security so that an attacker has to overcome multiple hurdles to gain access to a system.
+Hardening reduces a system's attack surface by removing unnecessary features, services, and access points. Without proper hardening, OT systems present a larger attack surface than required, increasing vulnerability to compromise.
 
 ## Description
 
-Hardening is the process of securing a system by reducing its surface of vulnerability. This can be achieved by removing unnecessary services, closing unused ports, and applying security patches. Hardening is an essential step in securing any system, as it reduces the number of potential entry points for attackers.
+System hardening is the process of securing infrastructure by minimizing attack vectors through:
 
-Another way of hardening is to apply additional layers of security, such as firewalls, intrusion detection systems, and encryption. These additional layers can help protect against attacks even if the underlying system is compromised. In the context of OT, hardening is particularly important due to the unique challenges and requirements of these systems. OT systems are often designed to operate continuously and cannot be easily patched or updated without causing downtime.
+- **Service reduction**: Removing unnecessary services, protocols, and interfaces
+- **Access control**: Disabling default accounts and implementing proper authentication
+- **Configuration management**: Applying secure defaults and security patches
+- **Defense in depth**: Adding protective layers like firewalls and monitoring
 
-### Apply established hardening guidelines
-
-### Disable default accounts and passwords
+OT environments face unique hardening challenges due to operational requirements for continuous availability and legacy system constraints that limit patching flexibility.
 
 ## Rationale
 
-Inclusion of hardening in the OWASP OT Top 10 was a point of serious discussion.
+Hardening was included in the OWASP OT Top 10 based on empirical evidence showing:
 
-Hardening itself does not reduce a concrete vulnerability but makes meaningful exploitation of vulnerabilities harder for attackers.
+- Missing hardening was a common factor in successful OT exploits
+- Comprehensive hardening would have prevented many documented attacks
+- The critical need for security layers in systems requiring continuous operation
 
-Empirical data, gathered during the development of the OWASP OT Top 10, showed that missing hardening was a common part of successful exploits and comprehensive hardening would have prevented successful exploitation.
+While hardening doesn't eliminate specific vulnerabilities, it significantly increases exploitation difficulty and provides protective barriers during incident response.
 
-Given the requirement of non-stop operation of many OT systems, hardening is crucial as it allows for controlled updates after a security issue has been identified (as the additional security layers uphold the security of the overall system).
+## Known Attacks
 
-## Known Attacks/Examples
+**Stuxnet (2010)**: USB port hardening could have prevented initial compromise via infected removable media.
 
-- [Stuxnet](https://de.wikipedia.org/wiki/Stuxnet): Disabling USB ports could have avoided initial compromise.
-- [NotPetya](https://en.wikipedia.org/wiki/NotPetya): Proper network segmentation and hardening could have limited the spread of the malware.
+**NotPetya (2017)**: Proper endpoint hardening and disabling unnecessary services could have prevented lateral movement through compromised systems.
 
-## Mitigation/Countermeasures
+**Colonial Pipeline (2021)**: Hardened remote access systems and disabled default credentials could have prevented initial compromise.
 
-### Developers/Component Suppliers/Integrators: Design and Implementation
+## Mitigation Strategies
 
-- Disable unnecessary services and interfaces (e.g. USB ports, insecure protocols like Telnet, web server, JTAG/SWD interfaces)
-- Start with established hardening benchmarks and gradually relax controls only as necessary to ensure your component or system functions properly
-- Include Application allow-listing if possible
-- Provide your component or system with a secure default configuration
-- Provide a hardening guideline for your component or system to customers
+### For Developers/Suppliers/Integrators
 
-### Operators: Operational
+**Design Phase:**
+- Start with established hardening benchmarks (CIS, DISA STIGs)
+- Implement secure-by-default configurations
+- Disable unnecessary interfaces (USB, Telnet, debug ports, web services)
+- Include application allowlisting capabilities
 
-- Make sure hardening is reapplied after maintenance
-- Request documentation of hardening measures
-- Include hardening requirements in the tender, ideally with the integrator providing their own hardening concept
-- Make sure hardening is actually implemented with a Pentest or some kind of Cybersecurity Acceptance Test (during SAT/FAT)
+**Implementation:**
+- Provide comprehensive hardening documentation
+- Create deployment guides with security configurations
+- Ensure hardening measures don't impact operational requirements
 
-## Next Actionable Steps
+### For Operators
 
-- identify applicable hardening guidelines for your environment
-- implement hardening guidelines
-- disable default accounts and passwords
+**Planning:**
+- Consult industry best practices and adapt to your specific environment
+- Create golden templates for standardized hardening configurations
+- Develop environment-specific hardening procedures
 
-## References
+**Deployment:**
+- Implement hardening requirements in procurement specifications
+- Verify hardening through penetration testing or cybersecurity acceptance testing
+- Document all applied hardening measures
 
-### Standards
+**Operations:**
+- Reapply hardening after maintenance activities
+- Implement automatic verification tools to ensure ongoing compliance
+- Monitor for configuration drift using automated scanning
+- Maintain hardening documentation and change control
 
-- IEC 62443-2-1:2019 ORG 1.5
-- IEC 62443-2-1:2024 - COMP 1.1 - Component hardening
-- IEC 62443-2-4:2024 - SP.02.03 - Hardening guidelines
-- IEC 62443-4-1:2018 - 12.4 SG-3 - Security hardening guidelines
-- IEC 62443-4-2
-- NIST CSF 2.0 PR.PS
-- EU NIS2 Directive Commission implementing Regulation C(2024) 7151 - ANNEX 6.3
-- EU NIS2 Directive Commission implementing Regulation C(2024) 7151 - ANNEX 6.9
-- EU NIS2 Directive Commission implementing Regulation C(2024) 7151 - ANNEX 12.3
-- MITRE ATT&CK M0806
-- MITRE ATT&CK M0818
-- MITRE ATT&CK M0921
-- MITRE ATT&CK M0924
-- MITRE ATT&CK M0927
-- MITRE ATT&CK M0928
-- MITRE ATT&CK M0934
-- MITRE ATT&CK M0936
-- MITRE ATT&CK M0938
-- MITRE ATT&CK M0942
-- MITRE ATT&CK M0944
-- MITRE ATT&CK M0949
-- MITRE ATT&CK M0950
-- MITRE ATT&CK M0951
-- MITRE ATT&CK M0954
+## Implementation Steps
 
-OT-specific hardening guides are often provided by the system integrator or product supplier, for example:
+1. **Assessment**: Identify applicable hardening standards for your environment
+2. **Planning**: Develop hardening implementation roadmap
+3. **Implementation**: Apply hardening measures systematically
+4. **Verification**: Test and validate hardening effectiveness
+5. **Maintenance**: Establish ongoing hardening management processes
 
-- *"System Hardening for Substation Automation and Protection"* for SICAM/SIPROTEC, which includes hardening measures at the solution level as well as for individual components.
+## Standards and References
 
-Several organizations provide configuration baselines and benchmarks for common systems:
+### Compliance Frameworks
+- **IEC 62443-2-1:2024** - Component hardening (COMP 1.1)
+- **IEC 62443-2-4:2024** - Hardening guidelines (SP.02.03)
+- **IEC 62443-4-1:2018** - Security hardening guidelines (12.4 SG-3)
+- **NIST CSF 2.0** - Protect function (PR.PS)
+- **EU NIS2 Directive** - Annexes 6.3, 6.9, 12.3
 
-- The **Center for Internet Security (CIS)** offers **Benchmarks** for various systems, including operating systems, network devices, and commonly used applications. In OT environments, relevant benchmarks cover operating systems, network infrastructure, and supporting applications.  
-- The **Defense Information Systems Agency (DISA)** publishes **Security Technical Implementation Guides (STIGs)**, which define configuration standards for securing Department of Defense (DoD) IT systems and are also widely adopted in other sectors.  
-- **Microsoft Security Baselines** recommend security settings for Windows operating systems and Microsoft applications.
+### MITRE ATT&CK Mitigations
+M0806, M0818, M0921, M0924, M0927, M0928, M0934, M0936, M0938, M0942, M0944, M0949, M0950, M0951, M0954
 
-### Background information
+### Hardening Resources
 
-- <https://en.wikipedia.org/wiki/Hardening_(computing)>
-- <https://en.wikipedia.org/wiki/Defense_in_depth_(computing)>
+**Configuration Benchmarks:**
+- **CIS Benchmarks**: Operating systems, network devices, applications
+- **DISA STIGs**: DoD-standard security configurations
+- **Microsoft Security Baselines**: Windows and Microsoft application settings
 
-### Tooling
+**Assessment Tools:**
+- **Tenable Nessus**: Compliance scanning and vulnerability assessment
+- **CIS-CAT Pro**: Automated benchmark assessment
+- **Microsoft Security Compliance Toolkit**: Windows hardening verification
 
-- Tenable Nessus, with compliance Scanning
-- CIS-CAT Lite/Pro
-- Microsoft Security Compliance Toolkit
+**OT-Specific Guides:**
+- Vendor hardening documentation (e.g., Siemens SICAM/SIPROTEC hardening guides)
+- Industry-specific hardening frameworks
+- System integrator security implementation guides
+
+### Additional Information
+- [Computing Hardening Overview](https://en.wikipedia.org/wiki/Hardening_(computing))
+- [Defense in Depth Strategies](https://en.wikipedia.org/wiki/Defense_in_depth_(computing))
