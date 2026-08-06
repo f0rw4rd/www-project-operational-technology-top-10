@@ -57,6 +57,7 @@ copyright: |
 
 nav:
   - 'Start Here': v/2025/index.md
+  - 'Summary': v/2025/summary.md
   - 'Meet and Greet': v/2025/news.md
   - 'Introduction':
     - 'About OWASP': v/2025/introduction/about-owasp.md
